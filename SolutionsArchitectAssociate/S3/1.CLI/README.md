@@ -1,3 +1,9 @@
+# 0. S3 CLI
+- `aws s3`: A high-level way to interact with S3 buckets and objects
+- `aws s3api`: A low-level way to interact with S3 buckets and objects
+- `aws s3control`: Managing s3 access points, S3 outposts buckets, S3 batch operations, storage lens.
+- `aws s3outposts`: Manage endpoints for S3 outposts
+
 # 1. Create bucket
 
 ```
@@ -50,4 +56,10 @@ aws s3api list-objects --bucket <bucket-name> --query Contents[].Key
 aws s3 rm s3://<bucket-name>/<file-name>
 # Delete folder
 aws s3 rm s3://<bucket-name>/<folder-name> --recursive
+```
+
+# 7. Create folders
+
+```
+aws s3api put-object --bucket <bucket-name> --key "folder/"
 ```

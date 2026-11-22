@@ -3,14 +3,16 @@
 ## Object storage
 A data storage architecture that manages data as objects
 
+![alt text](storage_classes.png)
+
 ### S3 Objects
 Consist of:
-- **Key**: name of the object
+- **Key**: name of the object (cannot exceed 1024 bytes)
 - **Value**: the data 
 - **Version ID**: version of the object (if versioning enabled)
 - **Metadata**: additional info attached
 - **Etags**: detect when the contents of an object has changed
-- **Checksums**: ensures the integrity
+- **Checksums**: ensures the integrity (CRC, CRC32C, SHA1, SHA256)
 - **Prefixes**: simulates the file-system folders in a flat hierarchy
 - **Tags**: benefits resource tagging at the object level
 - **Object Locking**: makes data files immutable
@@ -43,3 +45,20 @@ Buckets hold objects. Buckets can also have folders which in turn hold objects.
 
 #### Bucket Folders
 S3 general purpose buckets do not have true folders. When you create a folder in S3 Console, Amazon S3 creates a zero-byte S3 object with a name that ends with `/`, doesn't include metadata, permissions, or anything, they can't be full or empty. S3 folders aren't moved, S3 objects containing the same prefix are renamed
+
+## Request Styles
+
+- Virtual hosted-stype request - bucket name is a subdomain on the host:
+    ```
+    DELETE /puppy.jpg HTTP/1.1
+    Host: examplebucket.s3.us-west-2.amazonaws.com
+    ```
+- Path-style request - bucket name is in the request path (discontinued in the future):
+    ```
+    DELETE /examplebucket/puppy.jpg HTTP/1.1
+    Host: s3.us-west-2.amazonaws.com
+    ```
+- To force AWS CLI to use Virtual hosted-style requests, you need to globally configure the CLI
+    ```
+    aws configure set s3.addressing_style virtual
+    ```
